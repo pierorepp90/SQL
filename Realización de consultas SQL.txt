@@ -1,0 +1,568 @@
+#1.1
+
+SELECT nombre FROM producto;
+#1.2
+
+SELECT nombre,precio FROM producto;
+#1.3
+
+SELECT * FROM producto;
+#1.4
+
+SELECT nombre,precio,(precio*1.1) AS precio_en_dolares FROM producto;
+#1.5
+SELECT nombre AS "nombre de producto",precio AS euros,(precio*1.1) AS dolares FROM producto;
+#1.6
+
+SELECT UPPER(nombre) AS NOMBRE,precio FROM producto;
+#1.7
+
+SELECT LOWER(nombre) AS nombre,precio FROM producto;
+#1.8
+
+SELECT nombre,CONCAT(UPPER(SUBSTRING(nombre, 1, 2)),SUBSTRING(nombre,3,20)) AS NOmbre FROM fabricante;
+#1.9
+SELECT nombre,ROUND(precio) FROM producto;
+#1.10
+
+SELECT nombre,TRUNCATE(precio,0) FROM producto;
+#1.1
+1
+SELECT F.codigo
+FROM fabricante AS F
+
+INNER JOIN producto AS P
+
+	ON F.codigo = P.codigo_fabricante ;
+#1.1
+2
+SELECT DISTINCT F.codigo
+FROM fabricante AS F
+
+INNER JOIN producto AS P
+
+	ON F.codigo = P.codigo_fabricante ;
+#1.13
+SELECT nombre FROM fabricante
+
+ORDER BY nombre ASC;
+#1.14
+SELECT nombre FROM fabricante
+
+ORDER BY nombre DESC;
+#1.15
+SELECT nombre,precio FROM producto
+
+ORDER BY nombre ASC,precio DESC;
+#1.1
+6
+SELECT * FROM fabricante
+LIMIT 5;
+#1.1
+7
+SELECT * FROM fabricante
+LIMIT 2 OFFSET 3;
+#1.1
+8
+SELECT nombre,precio FROM producto
+
+ORDER BY precio ASC
+
+LIMIT 1;
+#1.1
+9
+SELECT nombre,precio FROM producto
+
+ORDER BY precio DESC
+
+LIMIT 1;
+#1.20
+SELECT nombre FROM producto
+
+WHERE codigo_fabricante = 2;
+#1.21
+
+SELECT nombre FROM producto
+
+WHERE precio <= 120;
+#1.2
+2
+SELECT nombre FROM producto
+
+WHERE precio >= 400;
+#1.2
+3
+SELECT nombre FROM producto
+
+WHERE NOT precio >= 400;
+#1.2
+4
+SELECT nombre FROM producto
+
+WHERE precio <= 300 AND precio >= 80;
+#1.2
+SELECT nombre FROM producto
+
+WHERE precio BETWEEN 60 AND 200;
+#1.2
+6
+SELECT nombre FROM producto
+
+WHERE precio >= 200 and codigo_fabricante = 6;
+#1.27
+
+SELECT nombre FROM producto
+
+WHERE codigo_fabricante = 1 OR codigo_fabricante = 3 OR codigo_fabricante = 5;
+#1.2
+8
+SELECT nombre FROM producto
+
+WHERE codigo_fabricante IN(1,3,5);
+#1.2
+9
+SELECT nombre,(precio*100) AS céntimos FROM producto;
+#1.30
+
+SELECT nombre FROM fabricante
+
+WHERE nombre LIKE "S%" ;
+#1.3
+1
+SELECT nombre FROM fabricante
+
+WHERE nombre LIKE "%e" ;
+#1.32
+
+SELECT nombre FROM fabricante
+
+WHERE nombre LIKE "%w%" ;
+#1.33
+
+SELECT nombre FROM fabricante
+
+WHERE Length(nombre) = 4 ;
+#1.34
+
+SELECT nombre FROM producto
+
+WHERE nombre LIKE "%Portatil%";
+#1.35
+
+SELECT nombre FROM producto
+
+WHERE nombre LIKE "%Monitor%" and precio < 215 ;
+#1.3
+6
+SELECT nombre,precio FROM producto
+
+WHERE precio >= 180
+
+ORDER BY precio DESC,nombre ASC;
+
+#1.1.4
+
+#1
+
+SELECT P.nombre,precio,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+	
+ON P.codigo_fabricante = F.codigo
+;
+#2
+
+SELECT P.nombre,precio,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+	
+ON P.codigo_fabricante = F.codigo
+    
+ORDER BY F.nombre ASC
+;
+#3
+
+SELECT P.codigo,P.nombre,codigo_fabricante,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+	
+ON P.codigo_fabricante = F.codigo;
+#4
+
+SELECT P.nombre,MIN(precio) AS precio,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+	
+ON P.codigo_fabricante = F.codigo;
+#5
+SELECT P.nombre,MAX(precio) AS precio,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+	
+ON P.codigo_fabricante = F.codigo;
+#6
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE F.nombre = "Lenovo" ;
+#7
+
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+WHERE F.nombre = "Crucial" AND precio > 200 ;
+#8
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE F.nombre = "Asus" OR F.nombre = "Seagate" OR F.nombre =  "Hewlett-Packard" ;
+#9
+
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE F.nombre IN ("Asus", "Hewlett-Packard", "Seagate") ;
+#1
+0
+SELECT P.nombre,precio FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE F.nombre LIKE "%e" ;
+#1
+1
+SELECT P.nombre,precio FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE F.nombre LIKE "%w%" ;
+#12
+
+SELECT P.nombre,precio,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE precio >= 180 
+
+ORDER BY precio DESC,P.nombre ASC ;
+#13
+
+SELECT DISTINCT F.codigo,F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo ;
+
+#1.1.5
+#1
+
+SELECT DISTINCT F.nombre, P.nombre FROM fabricante AS F
+
+LEFT JOIN producto AS P
+
+ON F.codigo = P.codigo_fabricante;
+#2
+
+SELECT DISTINCT F.nombre, P.nombre FROM fabricante AS F
+
+LEFT JOIN producto AS P
+
+ON F.codigo = P.codigo_fabricante
+
+WHERE P.nombre IS NULL;
+#3
+#(No. Esta especificado en estas lineas: "codigo_fabricante INT UNSIGNED NOT NULL,
+  FOREIGN KEY (codigo_fabricante) REFERENCES fabricante(codigo)".
+Lo que entiendo es que "codigo_fabricante",de la tabla producto, tiene que tener un valor entero,positivo y que
+ este hace referencia a los valores de la columna "codigo",de la tabla fabricante.)
+1.1.6
+#1
+
+SELECT COUNT(codigo) AS cantidad_productos FROM producto;
+#2
+SELECT COUNT(codigo) AS cantidad_fabricantes FROM fabricante;
+#3
+SELECT COUNT(DISTINCT(codigo_fabricante)) AS fabricantes_productivos FROM producto;
+#4
+SELECT AVG(precio) FROM producto;
+#5
+SELECT MIN(precio) FROM producto;
+#6
+SELECT MAX(precio) FROM producto;
+#
+7
+SELECT nombre,MIN(precio) FROM producto;
+#8
+
+SELECT nombre,MAX(precio) FROM producto;
+#
+9
+SELECT SUM(precio) FROM producto;
+#10
+
+SELECT COUNT(codigo) FROM producto
+
+WHERE codigo_fabricante = 1;
+#11
+
+SELECT AVG(precio) FROM producto
+
+WHERE codigo_fabricante = 1;
+#12
+SELECT MIN(precio) FROM producto
+
+WHERE codigo_fabricante = 1;
+#13
+SELECT MAX(precio) FROM producto
+
+WHERE codigo_fabricante = 1;
+#14
+SELECT SUM(precio) FROM producto
+
+WHERE codigo_fabricante = 1;
+#15
+
+SELECT MAX(precio) AS precio_maximo,MIN(precio) AS precio_minimo,AVG(precio) AS precio_medio FROM producto
+
+WHERE codigo_fabricante = 6;
+#16
+
+SELECT F.nombre,COUNT(*) AS cantindad_productos FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante)
+
+ORDER BY cantindad_productos DESC;
+#
+17
+SELECT F.nombre,MAX(precio),MIN(precio),AVG(precio) FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante);
+#
+18
+SELECT codigo_fabricante,MAX(precio),MIN(precio),AVG(precio),COUNT(*) FROM producto
+
+GROUP BY (codigo_fabricante)
+
+HAVING AVG(precio)>= 200;
+#
+19
+SELECT F.nombre,MAX(precio),MIN(precio),AVG(precio),COUNT(*) FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante)
+
+HAVING AVG(precio)>= 200;
+#2
+0
+SELECT COUNT(precio) FROM producto
+
+WHERE precio >= 180;
+#2
+1
+SELECT F.nombre,COUNT(*) FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE P.precio >= 180
+
+GROUP BY (codigo_fabricante);
+#2
+2
+SELECT codigo_fabricante,AVG(precio) FROM producto
+
+GROUP BY (codigo_fabricante);
+#23
+
+SELECT F.nombre,AVG(precio) FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante);
+#24
+SELECT F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante)
+
+HAVING AVG(precio) >= 150;
+#25
+SELECT F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY (codigo_fabricante)
+
+HAVING COUNT(*) >= 2;
+
+#2
+6
+SELECT F.nombre,COUNT(*) FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+WHERE precio >= 220 
+
+GROUP BY (codigo_fabricante);
+#27
+SELECT F.nombre AS nombre ,
+(SELECT COUNT(*) FROM producto AS P
+
+WHERE P.codigo_fabricante = F.codigo AND P.precio >= 220 ) AS contador FROM fabricante AS F
+
+ORDER BY  contador DESC;
+
+#28
+
+SELECT F.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+ON P.codigo_fabricante = F.codigo
+
+GROUP BY F.nombre
+
+HAVING SUM(precio) >= 1000;
+#29
+
+SELECT P.nombre AS nombre_producto,precio,(SELECT F.nombre FROM fabricante AS F
+WHERE P.codigo_fabricante = F.codigo) AS nombre_fabricante FROM producto AS P
+
+GROUP BY nombre_fabricante
+
+HAVING MAX(precio)
+
+ORDER BY nombre_fabricante ASC;
+#1.1.7.1
+#1
+#
+SELECT P.nombre FROM producto AS P
+WHERE (SELECT F.nombre FROM fabricante AS F WHERE P.codigo_fabricante = F.codigo) LIKE "Lenovo";
+#2
+SELECT * FROM producto AS P
+
+WHERE precio = (SELECT MAX(P.precio) FROM fabricante AS F,producto AS P WHERE P.codigo_fabricante = F.codigo AND F.nombre LIKE "Lenovo" );
+#3
+SELECT * FROM producto AS P
+WHERE (SELECT F.nombre FROM fabricante AS F WHERE P.codigo_fabricante = F.codigo) LIKE "Lenovo" 
+
+GROUP BY codigo_fabricante
+HAVING MAX(precio);
+#4
+
+SELECT * FROM producto
+
+WHERE precio = (SELECT MIN(P.precio) FROM fabricante AS F,producto AS P WHERE P.codigo_fabricante = F.codigo AND F.nombre LIKE "%-%" );
+#5
+SELECT * FROM producto AS P
+
+WHERE precio >= (SELECT MAX(P.precio) FROM fabricante AS F,producto AS P WHERE P.codigo_fabricante = F.codigo AND F.nombre LIKE "Lenovo" );
+#6
+
+SELECT * FROM producto AS P
+
+
+WHERE precio >= (SELECT AVG(P.precio) FROM fabricante AS F,producto AS P WHERE P.codigo_fabricante = F.codigo AND F.nombre LIKE "Asus" ) AND codigo_fabricante = 1 ;
+#1.1.7.2
+#8
+#SELECT * FROM producto WHERE precio >= ALL (SELECT precio FROM producto);
+#
+9
+SELECT * FROM producto WHERE precio <= ALL (SELECT precio FROM producto);
+#
+10
+SELECT F.nombre FROM fabricante AS F
+
+WHERE F.codigo = ANY (SELECT P.codigo_fabricante FROM producto AS P);
+#
+11
+SELECT F.nombre FROM fabricante AS F
+
+WHERE F.codigo != ALL (SELECT P.codigo_fabricante FROM producto AS P);
+#1.1.7.3
+#12
+
+SELECT F.nombre FROM fabricante AS F
+
+WHERE F.codigo IN (SELECT P.codigo_fabricante FROM producto AS P);
+#13
+SELECT F.nombre FROM fabricante AS F
+
+WHERE F.codigo NOT IN (SELECT P.codigo_fabricante FROM producto AS P);
+#1.1.7.4
+#14
+
+SELECT F.nombre FROM fabricante AS F
+
+WHERE EXISTS (SELECT P.codigo_fabricante FROM producto AS P WHERE P.codigo_fabricante = F.codigo );
+#15
+SELECT F.nombre FROM fabricante AS F
+
+WHERE NOT EXISTS (SELECT P.codigo_fabricante FROM producto AS P WHERE P.codigo_fabricante = F.codigo );
+#1.1.7.5
+#16
+
+SELECT F.nombre,P.nombre,P.precio FROM fabricante AS F,producto AS P
+
+WHERE(precio) =(SELECT MAX(precio) FROM producto AS P WHERE P.codigo_fabricante = F.codigo);
+#
+17
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+	ON P.codigo_fabricante = F.codigo
+
+WHERE precio >= (SELECT AVG(precio) FROM producto AS P WHERE P.codigo_fabricante = F.codigo GROUP BY codigo_fabricante);
+#18
+SELECT P.nombre FROM producto AS P
+
+INNER JOIN fabricante AS F
+
+	ON P.codigo_fabricante = F.codigo
+
+WHERE precio = (SELECT MAX(precio) FROM producto AS P WHERE P.codigo_fabricante = F.codigo AND F.nombre LIKE "Lenovo");
+#1.1.8
+#7
+SELECT F.nombre FROM fabricante AS F
+
+HAVING (SELECT COUNT(codigo_fabricante) FROM producto AS P WHERE P.codigo_fabricante = 2) =
+ (SELECT COUNT(codigo_fabricante) FROM producto AS P WHERE P.codigo_fabricante = F.codigo GROUP BY (codigo_fabricante));
